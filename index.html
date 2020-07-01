@@ -35,7 +35,7 @@
             let url = "https://developer.api.autodesk.com/authentication/v1/authorize?"
             url += appendParam("client_id", client_ID)
             url += appendParam("response_type", "code")
-            url += appendParam("redirect_uri", getPath())
+            url += appendParam("redirect_uri", "https://hices.github.io/FusionResponse/") // this is to redirect to a correct URL without generating a error
             url += appendParam("scope", "data:read")
             url = url.substring(0, url.length - 1) // chop off last & for consistency
             console.log(url)
@@ -44,23 +44,12 @@
 
         let URL = document.getElementById("URL")
 
-        async function fetchHtmlAsText(url) {
-            return await (await fetch(url)).text();
-        }
-
-        // this is your `load_home() function`
-        async function loadHome(url) {
-            const contentDiv = document.getElementById("container");
-            contentDiv.innerHTML = await fetchHtmlAsText(url);
-        }
-
         if (getProps()){
             URL.innerHTML = getProps()
         }else {
             URL.innerHTML = getPath()
             const url = generateLoginURL()
             window.location.href = url;
-            // document.getElementById("container").innerHTML='<object type="text/html" data="https://developer.api.autodesk.com/authentication/v1/authorize?response_type=code&client_id=JWm7GqTIPAGoOAdusRzibvpL2IQzjAbD&redirect_uri=file://C:/Users/shawn/Documents/TestForgeAuth/auth.html&scope=data:read" ></object>';
         }
 
         function sendInfoToFusion(){
