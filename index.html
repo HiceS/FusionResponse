@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
 
     <body id="body" onload="sendCode()">
@@ -17,7 +16,6 @@
 
         function getProps() {
             const queryString = window.location.search
-            console.log("props = " + queryString)
             return queryString
         }
 
@@ -39,19 +37,22 @@
             url += appendParam("redirect_uri", "https://hices.github.io/FusionResponse/") // this is to redirect to a correct URL without generating a error
             url += appendParam("scope", "data:read")
             url = url.substring(0, url.length - 1) // chop off last & for consistency
-            console.log(url)
             return url
         }
         
         function sendCode(){      
             if (getProps()){
                 const code = getProps().substr(6)
-                console.log(code)
-                console.log("Trying to send code: " + code)
                 const args = {
                     code: code
                 };
-                setTimeout(function(){ adsk.fusionSendData('send', JSON.stringify(args)); }, 3000);
+                try{
+                    setTimeout(function(){ adsk.fusionSendData('send', JSON.stringify(args)); }, 3000); // Sleep for 3 seconds to allow Fusion to catch up.
+                }
+                catch (e) {
+                    // if there is a problem just wait another few seconds / alternatively just loop it and use a pass.
+                    setTimeout(function(){ adsk.fusionSendData('send', JSON.stringify(args)); }, 3000);
+                }
             }else {
                 document.getElementById("URL").innerHTML = getPath()
                 const url = generateLoginURL()
