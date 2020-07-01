@@ -7,6 +7,7 @@
     <body id="body" onload="sendCode()">
         <p id='p1'>This will auto send the data when finished authenticating.</p>
         <h3 id="URL"></h3>
+        <button type='button' onclick='sendCode()'>Click to send info to Fusion</button> 
         <br /><br />
     </body>
 
@@ -50,14 +51,16 @@
                 const args = {
                     code: code
                 };
-                adsk.fusionSendData('send', JSON.stringify(args));
+                setTimeout(function(){ adsk.fusionSendData('send', JSON.stringify(args)); }, 3000);
             }else {
                 document.getElementById("URL").innerHTML = getPath()
                 const url = generateLoginURL()
                 window.location.href = url;
             }
         }
-        
+
+        asyncCall();
+
         window.fusionJavaScriptHandler = {handle: function(action, data){
             try {
                 if (action == 'send') {
