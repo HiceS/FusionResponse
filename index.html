@@ -63,7 +63,7 @@
                 code: code
             };
             if (!adsk) {
-                while(!adsk) { /* Wait for ADSK to define */}
+                while(!adsk) { /* Wait for ADSK to define */ console.log("waiting for adsk....")}
             }
             adsk.fusionSendData('send', JSON.stringify(args));
         }
