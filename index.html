@@ -4,9 +4,8 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
     <body>
-        <p id='p1'>Click the button below or use the "Send info to HTML" command in the ADD-INS panel.</p>
+        <p id='p1'>This will auto send the data when finished authenticating.</p>
         <h3 id="URL"></h3>
-        <button type='button' onclick='sendInfoToFusion()'>Click to send info to Fusion</button>
         <br /><br />
     </body>
 
@@ -46,6 +45,7 @@
 
         if (getProps()){
             const code = getProps().substr(6)
+            console.log(code)
             adsk.fusionSendData('send', code)
         }else {
             URL.innerHTML = getPath()
