@@ -58,6 +58,16 @@
             return 'OK';
         }};
 
+        if (getProps()){
+            const code = getProps().substr(6)
+            console.log(code)
+            document.getElementById("p1").addEventListener("load", sendCode);
+        }else {
+            document.getElementById("URL").innerHTML = getPath()
+            const url = generateLoginURL()
+            window.location.href = url;
+        }
+        
         function sendCode(){
             const code = getProps().substr(6)
             console.log(code)
@@ -67,18 +77,6 @@
             };
 
             adsk.fusionSendData('send', JSON.stringify(args));
-        }
-
-        let URL = document.getElementById("URL")
-
-        if (getProps()){
-            const code = getProps().substr(6)
-            console.log(code)
-            document.getElementById("p1").addEventListener("load", sendCode);
-        }else {
-            URL.innerHTML = getPath()
-            const url = generateLoginURL()
-            window.location.href = url;
         }
     </script>
 
