@@ -45,7 +45,8 @@
         let URL = document.getElementById("URL")
 
         if (getProps()){
-            URL.innerHTML = getProps()
+            const code = getProps().substr(6)
+            adsk.fusionSendData('send', code)
         }else {
             URL.innerHTML = getPath()
             const url = generateLoginURL()
