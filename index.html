@@ -3,7 +3,7 @@
     <head>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
-    <body>
+    <body id="body">
         <p id='p1'>This will auto send the data when finished authenticating.</p>
         <h3 id="URL"></h3>
         <br /><br />
@@ -58,14 +58,13 @@
             return 'OK';
         }};
 
-        function sendInfoToFusion(code){
+        function sendCode(){
+            const code = getProps().substr(6)
+            console.log(code)
+
             const args = {
                 code: code
             };
-
-            if (typeof adsk === 'undefined') {
-                while(typeof adsk === 'undefined') { /* Wait for ADSK to define */ console.log("waiting for adsk....")}
-            }
 
             adsk.fusionSendData('send', JSON.stringify(args));
         }
@@ -75,7 +74,7 @@
         if (getProps()){
             const code = getProps().substr(6)
             console.log(code)
-            sendInfoToFusion(code)
+            document.getElementById("p1").addEventListener("load", sendCode);
         }else {
             URL.innerHTML = getPath()
             const url = generateLoginURL()
