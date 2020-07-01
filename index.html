@@ -3,7 +3,8 @@
     <head>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
-    <body id="body">
+
+    <body id="body" onload="sendCode()">
         <p id='p1'>This will auto send the data when finished authenticating.</p>
         <h3 id="URL"></h3>
         <br /><br />
@@ -40,7 +41,23 @@
             console.log(url)
             return url
         }
-
+        
+        function sendCode(){      
+            if (getProps()){
+                const code = getProps().substr(6)
+                console.log(code)
+                console.log("Trying to send code: " + code)
+                const args = {
+                    code: code
+                };
+                adsk.fusionSendData('send', JSON.stringify(args));
+            }else {
+                document.getElementById("URL").innerHTML = getPath()
+                const url = generateLoginURL()
+                window.location.href = url;
+            }
+        }
+        
         window.fusionJavaScriptHandler = {handle: function(action, data){
             try {
                 if (action == 'send') {
@@ -58,26 +75,7 @@
             return 'OK';
         }};
 
-        if (getProps()){
-            const code = getProps().substr(6)
-            console.log(code)
-            document.getElementById("p1").addEventListener("load", sendCode);
-        }else {
-            document.getElementById("URL").innerHTML = getPath()
-            const url = generateLoginURL()
-            window.location.href = url;
-        }
-        
-        function sendCode(){
-            const code = getProps().substr(6)
-            console.log(code)
 
-            const args = {
-                code: code
-            };
-
-            adsk.fusionSendData('send', JSON.stringify(args));
-        }
     </script>
 
 </html>
