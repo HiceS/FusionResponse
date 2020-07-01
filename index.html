@@ -41,31 +41,9 @@
             return url
         }
 
-        let URL = document.getElementById("URL")
-
-        if (getProps()){
-            const code = getProps().substr(6)
-            console.log(code)
-            adsk.fusionSendData('send', code)
-        }else {
-            URL.innerHTML = getPath()
-            const url = generateLoginURL()
-            window.location.href = url;
-        }
-
-        function sendInfoToFusion(){
-            const args = {
-                arg1: "Sample argument 1",
-                arg2: "Sample argument 2"
-            };
-            adsk.fusionSendData('send', JSON.stringify(args));
-        }
-
         window.fusionJavaScriptHandler = {handle: function(action, data){
             try {
                 if (action == 'send') {
-					// Update a paragraph with the data passed in.
-					document.getElementById('p1').innerHTML = data;
 				}
 				else if (action == 'debugger') {
                     debugger;
@@ -79,6 +57,28 @@
             }
             return 'OK';
         }};
+
+        function sendInfoToFusion(code){
+            const args = {
+                code: code
+            };
+            if (!adsk) {
+                while(!adsk) { /* Wait for ADSK to define */}
+            }
+            adsk.fusionSendData('send', JSON.stringify(args));
+        }
+
+        let URL = document.getElementById("URL")
+
+        if (getProps()){
+            const code = getProps().substr(6)
+            console.log(code)
+            sendInfoToFusion(code)
+        }else {
+            URL.innerHTML = getPath()
+            const url = generateLoginURL()
+            window.location.href = url;
+        }
     </script>
 
 </html>
