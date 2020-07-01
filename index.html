@@ -64,7 +64,7 @@
             };
 
             if (typeof adsk === 'undefined') {
-                while(typeof myVar === 'undefined') { /* Wait for ADSK to define */ console.log("waiting for adsk....")}
+                while(typeof adsk === 'undefined') { /* Wait for ADSK to define */ console.log("waiting for adsk....")}
             }
 
             adsk.fusionSendData('send', JSON.stringify(args));
